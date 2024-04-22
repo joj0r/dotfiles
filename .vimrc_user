@@ -1,0 +1,180 @@
+
+" An example for a vimrc file.
+"
+" Maintainer:	Bram Moolenaar <Bram@vim.org>
+" Last change:	2019 Dec 17
+"
+" To use it, copy it to
+"	       for Unix:  ~/.vimrc
+"	      for Amiga:  s:.vimrc
+"	 for MS-Windows:  $VIM\_vimrc
+"	      for Haiku:  ~/config/settings/vim/vimrc
+"	    for OpenVMS:  sys$login:.vimrc
+
+" When started as "evim", evim.vim will already have done these settings, bail
+" out.
+if v:progname =~? "evim"
+  finish
+endif
+
+" Auto-install vim-plug if it is not installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
+" List all the plugins you want to install
+call plug#begin('~/.vim/plugged')
+	Plug 'ledger/vim-ledger'
+	" Wiki and Task
+	Plug 'vimwiki/vimwiki'
+	Plug 'tools-life/taskwiki'
+	Plug 'blindFS/vim-taskwarrior'
+	" LSP and autocomplete
+	Plug 'prabirshrestha/vim-lsp'
+	Plug 'mattn/vim-lsp-settings'
+	Plug 'prabirshrestha/asyncomplete.vim'
+	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	Plug 'github/copilot.vim'
+	" Visual and interaction
+	Plug 'christoomey/vim-tmux-navigator'
+	Plug 'tomasiser/vim-code-dark'
+	Plug 'preservim/nerdtree'
+	Plug 'vim-airline/vim-airline'
+	Plug 'prettier/vim-prettier', { 
+				\ 'do': 'npm install' }
+  " Samlepakke med syntax
+  Plug 'sheerun/vim-polyglot'
+	" Git
+	Plug 'tpope/vim-fugitive'
+call plug#end()
+
+" Farger
+"
+colorscheme codedark
+" If you have vim-airline, you can also enable the provided theme
+let g:airline_theme = 'codedark'
+"
+" If you like the new dark modern colors (Needs feedback!)
+let g:codedark_modern=1
+
+
+" Get the defaults that most users want.
+" source $VIMRUNTIME/defaults.vim
+
+if has("vms")
+  set nobackup		" do not keep a backup file, use versions instead
+else
+  set backup		" keep a backup file (restore to previous version)
+  if has('persistent_undo')
+    set undofile	" keep an undo file (undo changes after closing)
+  endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+  " Switch on highlighting the last used search pattern.
+  set hlsearch
+endif
+
+" Add optional packages.
+set loadplugins
+"
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
+" The ! means the package won't be loaded right away but when plugins are
+" loaded during initialization.
+if has('syntax') && has('eval')
+  packadd! matchit
+endif
+
+" For VimWiki
+set nocompatible
+let g:vimwiki_global_ext = 0
+
+" For TaskWiki
+" let g:taskwiki_dont_fold = 1
+
+" Change leader to spacebar
+let mapleader = " "
+
+" For vim-ledger
+au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+
+" For vim-taskwarrior
+let g:task_rc_override = 'rc.defaultwidth=0'
+
+" Nerdtree remaping
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+" let g:netrw_banner = 0
+" let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+" let g:netrw_winsize = 25
+
+" inoremap <c-t> <Esc>:Lex<cr>
+" inoremap <c-t> <Esc>:Lex<cr>
+" 
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
+
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Vimwiki remaping
+nnoremap <leader>vs :VimwikiVSplitLink<CR>
+nnoremap <leader>sp :VimwikiSplitLink<CR>
+
+" Keyboard mappings for asyncomplete.vim
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+nnoremap gd <plug>(lsp-definition)
+nnoremap gs <plug>(lsp-document-symbol-search)
+nnoremap gS <plug>(lsp-workspace-symbol-search)
+nnoremap gr <plug>(lsp-references)
+nnoremap gi <plug>(lsp-implementation)
+nnoremap gt <plug>(lsp-type-definition)
+nnoremap <leader>rn <plug>(lsp-rename)
+nnoremap [g <plug>(lsp-previous-diagnostic)
+nnoremap ]g <plug>(lsp-next-diagnostic)
+nnoremap K <plug>(lsp-hover)
+nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+" Keyboard mappings for vim-lsp
+" function! s:on_lsp_buffer_enabled() abort
+"     setlocal omnifunc=lsp#complete
+"     setlocal signcolumn=yes
+"     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+"     nmap <buffer> gd <plug>(lsp-definition)
+"     nmap <buffer> gs <plug>(lsp-document-symbol-search)
+"     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+"     nmap <buffer> gr <plug>(lsp-references)
+"     nmap <buffer> gi <plug>(lsp-implementation)
+"     nmap <buffer> gt <plug>(lsp-type-definition)
+"     nmap <buffer> <leader>rn <plug>(lsp-rename)
+"     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+"     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+"     nnoremap <buffer> K <plug>(lsp-hover)
+"     nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+"     nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+" 
+"     let g:lsp_format_sync_timeout = 1000
+"     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+"     
+"     " refer to doc to add more commands
+" endfunction
+
+" Prettier mappings and config
+" Autoformat filer med @format eller @prettier tag
+let g:prettier#autoformat = 1
