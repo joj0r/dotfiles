@@ -35,11 +35,13 @@ call plug#begin('~/.vim/plugged')
 	" LSP and autocomplete
 	Plug 'prabirshrestha/vim-lsp'
 	Plug 'mattn/vim-lsp-settings'
-	Plug 'prabirshrestha/asyncomplete.vim'
-	Plug 'prabirshrestha/asyncomplete-lsp.vim'
-	Plug 'github/copilot.vim'
+	" Plug 'prabirshrestha/asyncomplete.vim'
+	" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	" Plug 'github/copilot.vim'
 	" Visual and interaction
 	Plug 'christoomey/vim-tmux-navigator'
+	Plug 'knubie/vim-kitty-navigator', {
+				\ 'do': 'cp ./*.py ~/.config/kitty/' }
 	" Plug 'tomasiser/vim-code-dark' "old
 	Plug 'morhetz/gruvbox'
 	Plug 'preservim/nerdtree'
@@ -109,6 +111,8 @@ let mapleader = " "
 " For vim-ledger
 au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
 au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+let g:ledger_detailed_first = 1
+let g:ledger_fuzzy_account_completion = 1
 
 " For vim-taskwarrior
 let g:task_rc_override = 'rc.defaultwidth=0'
@@ -145,9 +149,9 @@ nmap <Leader>wx :call VimwikiFindIncompleteTasks()<CR>
 
 
 " Keyboard mappings for asyncomplete.vim
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 nnoremap gd <plug>(lsp-definition)
 nnoremap gs <plug>(lsp-document-symbol-search)
