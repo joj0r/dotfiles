@@ -1,5 +1,5 @@
 " Fix mouse in Alacritty 
-set ttymouse=sgr
+" set ttymouse=sgr
 
 " Ledger addin config
 let g:ledger_date_format = '%Y-%m-%d'
