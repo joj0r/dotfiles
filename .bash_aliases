@@ -31,5 +31,10 @@ read_and_review (){
 	task "$id" annotate "$link"
 }
 
+pass_clip (){
+	pass "$*" | head -1 | clip.exe
+}
+
 alias rnr=read_and_review
 alias wt=webpage_title
+alias pc=pass_clip

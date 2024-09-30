@@ -48,6 +48,7 @@ set incsearch		" Incremental search
 "set autowrite		" Automatically save before commands like :next and :make
 set hidden		" Hide buffers when they are abandoned
 set mouse=a		" Enable mouse usage (all modes)
+set linebreak " wrap lines on word bounadaries
 
 " Put these in an autocmd group, so that we can delete them easily.
 augroup vimrcEx
@@ -84,7 +85,6 @@ set expandtab "(If you want spaces instead of tabs)
 
 set number
 set relativenumber
-set mouse=a
 
 " Set backupdirectories to prevent clutter
 let &directory = expand('~/.vimdata/swap//')

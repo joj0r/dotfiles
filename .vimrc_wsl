@@ -17,5 +17,5 @@ let g:ledger_commodity_before = 0
 
 " Vimwiki
 " Change syntax to markdown and specify extension
-let g:vimwiki_list = [{'path': '/mnt/c/Users/nojojo/Nextcloud/Notes/vimwiki',
+let g:vimwiki_list = [{'path': '/home/jonas/notes/vimwiki',
 											\ 'syntax': 'markdown', 'ext': '.md' }]
