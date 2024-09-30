@@ -45,6 +45,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'Yggdroot/indentLine'
 	Plug 'mattn/calendar-vim'
+	Plug 'knubie/vim-kitty-navigator', {
+				\ 'do': 'cp ./*.py ~/.config/kitty/' }
 	Plug 'morhetz/gruvbox'
 	Plug 'preservim/nerdtree'
 	Plug 'preservim/tagbar'
@@ -118,6 +120,8 @@ let mapleader = " "
 " For vim-ledger
 au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
 au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+let g:ledger_detailed_first = 1
+let g:ledger_fuzzy_account_completion = 1
 
 " For vim-taskwarrior
 let g:task_rc_override = 'rc.defaultwidth=0'
@@ -157,9 +161,9 @@ nmap oo i<CR><ESC>l
 
 
 " Keyboard mappings for asyncomplete.vim
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 nnoremap gd <plug>(lsp-definition)
 nnoremap gs <plug>(lsp-document-symbol-search)
