@@ -36,6 +36,10 @@ Det er opprettet to contexts for TW:
 For å lage symlink: `ln -s source_file symbolic_link` 
     eventuelt legg til `-f` for å overskrive eksisterende link
 
+For å lage symlink i CMD:
+- Åpne CMD med admin rights
+- kjør `mklink vimfiles\vimrc \\wsl.localhost\Arch\home\jonas\dotfiles\.vimrc_windows`
+
 ### .tmux.conf
 
 - Symlink:
