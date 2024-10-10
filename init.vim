@@ -1,5 +1,5 @@
 " Get settings for personal computer
-source ~/dotfiles/.vimrc_arch
+source ~/.vimrc_local
 
 " Set numbers
 set number
@@ -16,12 +16,10 @@ let mapleader = " "
 " Search should not be case sensitive
 set smartcase
 
-" Auto-install vim-plug if it is not installed
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
-endif
+" Mapping to insert line break
+nmap m a<CR><ESC>l
+
+" Install vim-plug from https://github.com/junegunn/vim-plug
 
 " List all the plugins you want to install
 call plug#begin('~/.vim/plugged')
@@ -40,12 +38,13 @@ call plug#begin('~/.vim/plugged')
 	" Plug 'github/copilot.vim'
   "
 	" Visual and interaction
-	" Plug 'christoomey/vim-tmux-navigator'
-	Plug 'knubie/vim-kitty-navigator', {
-				\ 'do': 'cp ./*.py ~/.config/kitty/' }
-	" Plug 'tomasiser/vim-code-dark' "old
+	Plug 'christoomey/vim-tmux-navigator'
+	" Plug 'knubie/vim-kitty-navigator', {
+	"			\ 'do': 'cp ./*.py ~/.config/kitty/' }
 	Plug 'morhetz/gruvbox'
 	Plug 'preservim/nerdtree'
+  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'tpope/vim-surround'
   "
   " Telescope
   Plug 'nvim-lua/plenary.nvim'
@@ -84,6 +83,11 @@ let g:ledger_fuzzy_account_completion = 1
 " Change syntax to markdown and specify extension
 let g:vimwiki_global_ext = 0
 
+" splitjoin mapping
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+nmap <leader>j :SplitjoinJoin<CR>
+nmap <leader>s :SplitjoinSplit<CR>
 
 " Nerdtree remaping
 nnoremap <leader>n :NERDTreeFocus<CR>
