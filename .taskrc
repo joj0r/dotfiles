@@ -46,7 +46,8 @@
 #taskd.credentials=inthe_am/jonas.jrgensen/577a260f-cd5e-447a-82d1-c891136ce792
 #taskd.trust=strict
 
-color.blocking=black on gray7
+color.blocking=white on gray5
+color.due=red on gray5
 
 uda.priority.values=H,M,,L
 news.version=2.6.0
