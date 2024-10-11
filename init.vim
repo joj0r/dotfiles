@@ -1,5 +1,5 @@
 " Get settings for personal computer
-source ~/dotfiles/.vimrc_arch
+source ~/.vimrc_local
 
 " Set numbers
 set number
@@ -40,6 +40,7 @@ call plug#begin('~/.vim/plugged')
 	" Plug 'github/copilot.vim'
   "
 	" Visual and interaction
+	Plug 'Yggdroot/indentLine'
 	" Plug 'christoomey/vim-tmux-navigator'
 	Plug 'knubie/vim-kitty-navigator', {
 				\ 'do': 'cp ./*.py ~/.config/kitty/' }
@@ -83,6 +84,8 @@ let g:ledger_fuzzy_account_completion = 1
 " Vimwiki
 " Change syntax to markdown and specify extension
 let g:vimwiki_global_ext = 0
+au FileType vimwiki let g:indentLine_enabled = 0
+au FileType markdown let g:indentLine_enabled = 0
 
 
 " Nerdtree remaping
