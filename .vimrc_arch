@@ -9,6 +9,9 @@ let g:ledger_default_commodity = 'kr'
 " kr kommer etter beløp
 let g:ledger_commodity_before = 0
 
+au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+au FileType ledger let b:asyncomplete_enable = 0
+
 " Vimwiki
 " Change syntax to markdown and specify extension
 let g:vimwiki_list = [{'path': '~/Nextcloud/Notes/vimwiki/', 
