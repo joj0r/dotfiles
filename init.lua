@@ -23,16 +23,55 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Install plugins
 require('lazy').setup({
-  {'folke/tokyonight.nvim'},
-  {'VonHeikemen/lsp-zero.nvim', branch = 'v4.x'},
-  {'williamboman/mason.nvim'},
-  {'williamboman/mason-lspconfig.nvim'},
-  {'neovim/nvim-lspconfig'},
-  {'hrsh7th/cmp-nvim-lsp'},
-  {'hrsh7th/nvim-cmp'},
-  {'ledger/vim-ledger'},
--- Wiki and Task
-  {'vimwiki/vimwiki'},
+  { 'folke/tokyonight.nvim' },
+  { 'VonHeikemen/lsp-zero.nvim',        branch = 'v4.x' },
+  { 'williamboman/mason.nvim' },
+  { 'williamboman/mason-lspconfig.nvim' },
+  { 'neovim/nvim-lspconfig' },
+  { 'hrsh7th/cmp-nvim-lsp' },
+  { 'hrsh7th/nvim-cmp' },
+  { 'ledger/vim-ledger' },
+  -- Wiki and Task
+  { 'vimwiki/vimwiki' },
+  { 'tools-life/taskwiki' },
+  { 'blindFS/vim-taskwarrior' },
+  -- Visual and interaction
+  { 'Yggdroot/indentLine' },
+  { 'morhetz/gruvbox' },
+  -- {'christoomey/vim-tmux-navigator'},
+  {
+    'MunsMan/kitty-navigator.nvim',
+    build = {
+      "cp navigate_kitty.py ~/.config/kitty",
+      "cp pass_keys.py ~/.config/kitty",
+    },
+    keys = {
+      {"<C-h>", function()require("kitty-navigator").navigateLeft()end, desc = "Move left a Split", mode = {"n"}},
+      {"<C-j>", function()require("kitty-navigator").navigateDown()end, desc = "Move down a Split", mode = {"n"}},
+      {"<C-k>", function()require("kitty-navigator").navigateUp()end, desc = "Move up a Split", mode = {"n"}},
+      {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
+    },
+  },
+  { 'preservim/nerdtree' },
+  { 'AndrewRadev/splitjoin.vim' },
+  { 'tpope/vim-surround' },
+
+  -- Telescope
+  { 'nvim-lua/plenary.nvim' },
+  { 'nvim-telescope/telescope.nvim', tag = '0.1.8' },
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+  },
+
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    }
+  },
+  -- Git
+  { 'tpope/vim-fugitive' },
 })
 
 -- Set numbers
@@ -46,6 +85,10 @@ vim.opt.expandtab = true
 
 -- From thePrimeagen
 vim.opt.smartindent = true
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
 
 vim.opt.scrolloff = 8
 
@@ -55,38 +98,6 @@ vim.g.mapleader = " "
 -- Search sould not be case sensitive
 vim.o.ignorecase = true
 
--- Vim-Plug
-local vim = vim
-local Plug = vim.fn['plug#']
-
-vim.call('plug#begin')
-
-	-- Wiki and Task
-	Plug('tools-life/taskwiki')
-	Plug('blindFS/vim-taskwarrior')
--- Visual and interaction
-	Plug('Yggdroot/indentLine')
-	Plug('morhetz/gruvbox')
-	Plug('christoomey/vim-tmux-navigator')
-	Plug('knubie/vim-kitty-navigator', {
-    ['do'] = 'cp ./*.py ~/.config/kitty/' 
-  })
-	Plug('preservim/nerdtree')
-  Plug('AndrewRadev/splitjoin.vim')
-  Plug('tpope/vim-surround')
-  
--- Telescope
-  Plug('nvim-lua/plenary.nvim')
-  Plug('nvim-telescope/telescope.nvim', { tag = '0.1.8' })
-  Plug('nvim-telescope/telescope-fzf-native.nvim', { 
-    ['do'] = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' })
-
-	Plug('vim-airline/vim-airline')
--- Git
-	Plug('tpope/vim-fugitive')
-
-vim.call('plug#end')
-
 -- Vim-ledger
 -- Fussy account and details first on search
 vim.g.ledger_detailed_first = 1
@@ -94,12 +105,13 @@ vim.g.ledger_fuzzy_account_completion = 1
 
 -- Vimwiki
 vim.g.vimwiki_global_ext = 0
+vim.keymap.set('n', '<leader>ww', '<cmd>:VimwikiIndex<CR>')
 
 -- Disable indentline for Wiki and MD files
-vim.api.nvim_create_autocmd({"Filetype"}, {
-  pattern = {"vimwiki", "markdown", "ledger"},
+vim.api.nvim_create_autocmd({ "Filetype" }, {
+  pattern = { "vimwiki", "markdown", "ledger" },
   callback = function()
-     vim.g.indentLine_enabled = 0
+    vim.g.indentLine_enabled = 0
   end
 })
 
@@ -126,6 +138,12 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 vim.opt.termguicolors = true
 vim.cmd.colorscheme('tokyonight-moon')
 
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight-moon'
+  }
+}
+
 -- LSP configurations ---
 --
 -- Reserve a space in the gutter
@@ -146,7 +164,7 @@ lspconfig_defaults.capabilities = vim.tbl_deep_extend(
 vim.api.nvim_create_autocmd('LspAttach', {
   desc = 'LSP actions',
   callback = function(event)
-    local opts = {buffer = event.buf}
+    local opts = { buffer = event.buf }
 
     vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
@@ -156,7 +174,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
     vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
     vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-    vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
+    vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
     vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
   end,
 })
@@ -172,26 +190,54 @@ require('mason-lspconfig').setup({
 })
 
 -- Auto completion settings
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
 local cmp = require('cmp')
 
 cmp.setup({
   sources = {
-    {name = 'nvim_lsp'},
+    { name = 'nvim_lsp' },
   },
   mapping = cmp.mapping.preset.insert({
     -- Navigate between completion items
-    ['<C-p>'] = cmp.mapping.select_prev_item({behavior = 'select'}),
-    ['<C-n>'] = cmp.mapping.select_next_item({behavior = 'select'}),
+    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = 'select' }),
+    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = 'select' }),
 
     -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
-
-    -- Ctrl+Space to trigger completion menu
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
     -- Scroll up and down in the completion documentation
     ['<C-u>'] = cmp.mapping.scroll_docs(-4),
     ['<C-d>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    },
+
+    --Tab completion
+    ['<Tab>'] = function(fallback)
+      if not cmp.select_next_item() then
+        if vim.bo.buftype ~= 'prompt' and has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
+
+    ['<S-Tab>'] = function(fallback)
+      if not cmp.select_prev_item() then
+        if vim.bo.buftype ~= 'prompt' and has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end
+    end,
   }),
   snippet = {
     expand = function(args)
