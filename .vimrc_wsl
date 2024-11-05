@@ -1,3 +1,7 @@
+" Adjust vimdiff colors
+if &diff
+    highlight! link DiffText MatchParen
+endif
 
 " Open links correctly on WSL
 let g:netrw_browsex_viewer="cmd.exe /C start"
