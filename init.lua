@@ -1,6 +1,7 @@
 -- Get file for local adjustments
 vim.cmd('source ~/.vimrc_local')
 
+
 -- lazy.nvim
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -23,7 +24,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Install plugins
 require('lazy').setup({
-  { 'folke/tokyonight.nvim' },
   { 'VonHeikemen/lsp-zero.nvim',        branch = 'v4.x' },
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
@@ -36,22 +36,23 @@ require('lazy').setup({
   { 'tools-life/taskwiki' },
   { 'blindFS/vim-taskwarrior' },
   -- Visual and interaction
+  { 'folke/tokyonight.nvim' },
   { 'Yggdroot/indentLine' },
   { 'morhetz/gruvbox' },
-  -- {'christoomey/vim-tmux-navigator'},
-  {
-    'MunsMan/kitty-navigator.nvim',
-    build = {
-      "cp navigate_kitty.py ~/.config/kitty",
-      "cp pass_keys.py ~/.config/kitty",
-    },
-    keys = {
-      {"<C-h>", function()require("kitty-navigator").navigateLeft()end, desc = "Move left a Split", mode = {"n"}},
-      {"<C-j>", function()require("kitty-navigator").navigateDown()end, desc = "Move down a Split", mode = {"n"}},
-      {"<C-k>", function()require("kitty-navigator").navigateUp()end, desc = "Move up a Split", mode = {"n"}},
-      {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
-    },
-  },
+  {'christoomey/vim-tmux-navigator'},
+  -- {
+  --   'MunsMan/kitty-navigator.nvim',
+  --   build = {
+  --     "cp navigate_kitty.py ~/.config/kitty",
+  --     "cp pass_keys.py ~/.config/kitty",
+  --   },
+  --   keys = {
+  --     {"<C-h>", function()require("kitty-navigator").navigateLeft()end, desc = "Move left a Split", mode = {"n"}},
+  --     {"<C-j>", function()require("kitty-navigator").navigateDown()end, desc = "Move down a Split", mode = {"n"}},
+  --     {"<C-k>", function()require("kitty-navigator").navigateUp()end, desc = "Move up a Split", mode = {"n"}},
+  --     {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
+  --   },
+  -- },
   { 'preservim/nerdtree' },
   { 'AndrewRadev/splitjoin.vim' },
   { 'tpope/vim-surround' },
@@ -136,7 +137,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 
 -- Colorscheme
 vim.opt.termguicolors = true
-vim.cmd.colorscheme('tokyonight-moon')
+vim.cmd.colorscheme('tokyonight-storm')
 
 require('lualine').setup {
   options = {
