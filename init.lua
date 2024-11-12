@@ -24,12 +24,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Install plugins
 require('lazy').setup({
+  -- LSP and autocomplete
   { 'VonHeikemen/lsp-zero.nvim',        branch = 'v4.x' },
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
   { 'neovim/nvim-lspconfig' },
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/nvim-cmp' },
+  -- ledger
   { 'ledger/vim-ledger' },
   -- Wiki and Task
   { 'vimwiki/vimwiki' },
@@ -38,8 +40,23 @@ require('lazy').setup({
   -- Visual and interaction
   { 'folke/tokyonight.nvim' },
   { 'Yggdroot/indentLine' },
-  { 'morhetz/gruvbox' },
-  {'christoomey/vim-tmux-navigator'},
+  {
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
+    keys = {
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
   -- {
   --   'MunsMan/kitty-navigator.nvim',
   --   build = {
@@ -74,6 +91,9 @@ require('lazy').setup({
   -- Git
   { 'tpope/vim-fugitive' },
 })
+
+-- Disable tmux navigator when zooming the Vim pane
+vim.g.tmux_navigator_disable_when_zoomed = 1
 
 -- Set numbers
 vim.opt.number = true
@@ -137,11 +157,11 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 
 -- Colorscheme
 vim.opt.termguicolors = true
-vim.cmd.colorscheme('tokyonight-storm')
+vim.cmd.colorscheme('tokyonight')
 
 require('lualine').setup {
   options = {
-    theme = 'tokyonight-moon'
+    theme = 'tokyonight'
   }
 }
 
