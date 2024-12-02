@@ -206,6 +206,9 @@ alias bs='bluetoothctl connect FC:A8:9A:21:44:EF'
 # WH-1000XM4
 alias bw='bluetoothctl connect F8:4E:17:45:41:43'
 
+# Geneva Touring s
+alias bt='bluetoothctl connect 00:02:5B:00:B0:CC'
+
 # Enable bash completion for Clickable
 if [ $(command -v register-python-argcomplete) ]; then
   eval "$(register-python-argcomplete clickable)"

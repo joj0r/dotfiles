@@ -1,9 +1,7 @@
 -- Get file for local adjustments
-vim.cmd('source ~/.vimrc_local')
-
+vim.cmd('source ~/dotfiles/local_arch.lua')
 
 -- lazy.nvim
-
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
 -- Auto-install lazy.nvim if not present
@@ -39,20 +37,20 @@ require('lazy').setup({
   { 'folke/tokyonight.nvim' },
   { 'Yggdroot/indentLine' },
   { 'morhetz/gruvbox' },
-  {'christoomey/vim-tmux-navigator'},
-  -- {
-  --   'MunsMan/kitty-navigator.nvim',
-  --   build = {
-  --     "cp navigate_kitty.py ~/.config/kitty",
-  --     "cp pass_keys.py ~/.config/kitty",
-  --   },
-  --   keys = {
-  --     {"<C-h>", function()require("kitty-navigator").navigateLeft()end, desc = "Move left a Split", mode = {"n"}},
-  --     {"<C-j>", function()require("kitty-navigator").navigateDown()end, desc = "Move down a Split", mode = {"n"}},
-  --     {"<C-k>", function()require("kitty-navigator").navigateUp()end, desc = "Move up a Split", mode = {"n"}},
-  --     {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
-  --   },
-  -- },
+  -- {'christoomey/vim-tmux-navigator'},
+  {
+    'MunsMan/kitty-navigator.nvim',
+    build = {
+      "cp navigate_kitty.py ~/.config/kitty",
+      "cp pass_keys.py ~/.config/kitty",
+    },
+    keys = {
+      {"<C-h>", function()require("kitty-navigator").navigateLeft()end, desc = "Move left a Split", mode = {"n"}},
+      {"<C-j>", function()require("kitty-navigator").navigateDown()end, desc = "Move down a Split", mode = {"n"}},
+      {"<C-k>", function()require("kitty-navigator").navigateUp()end, desc = "Move up a Split", mode = {"n"}},
+      {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
+    },
+  },
   { 'preservim/nerdtree' },
   { 'AndrewRadev/splitjoin.vim' },
   { 'tpope/vim-surround' },
@@ -64,7 +62,6 @@ require('lazy').setup({
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
   },
-
   {
     'nvim-lualine/lualine.nvim',
     dependencies = {
@@ -221,6 +218,9 @@ cmp.setup({
 
     --Tab completion
     ['<Tab>'] = function(fallback)
+      if vim.bo.filetype == "ledger" then
+        fallback()
+      end
       if not cmp.select_next_item() then
         if vim.bo.buftype ~= 'prompt' and has_words_before() then
           cmp.complete()

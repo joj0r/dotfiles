@@ -74,7 +74,6 @@ vim.g.ledger_fuzzy_account_completion = 1
 -- vim.api.nvim_create_autocmd({"FileType"}, {
 --   pattern = "ledger",
 --   callback = function()
---     vim.b.asyncomplete_enable = 0
 --     vim.keymap.set('i', '<Tab>', function()
 --       vim.fn['ledger#autocomplete_and_align']()
 --     end, {buffer = true })
