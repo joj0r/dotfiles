@@ -1,4 +1,4 @@
-# Taskwarrior-repo
+# Dotfiles for my Arch-systems
 
 ## Contexts
 Det er opprettet to contexts for TW:
