@@ -160,7 +160,7 @@ alias lfbudy='ledger -f felles.ledger budget -p "this year" exp and not \(\
 # Ledger regnskap.ledger
 alias lrbal='ledger -f regnskap.ledger bal \(assets liabilities klatrekort\) and not \(Pensjon or PetraAsk\) -V'
 alias wrbal='watch ledger -f regnskap.ledger bal \(assets liabilities klatrekort\) and not \(Pensjon or PetraAsk\) -V'
-alias lrbud='ledger -f regnskap.ledger budget -p "this month" exp'
+alias lrbud='ledger -f regnskap.ledger budget -p "this month" ^Ass ^Exp ^Inc ^Lia'
 alias lrbudy='ledger -f regnskap.ledger budget -p "this year" exp and not \(\
     Expenses:Underholdning\
     Expenses:Bolig\
