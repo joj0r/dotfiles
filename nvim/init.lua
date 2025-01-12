@@ -1,5 +1,5 @@
 -- Get file for local adjustments
-vim.cmd('source local.lua')
+vim.cmd('source ~/.config/nvim/local.lua')
 
 -- lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
