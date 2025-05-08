@@ -1,5 +1,5 @@
 -- Get file for local adjustments
-vim.cmd('source ~/.vimrc_local')
+vim.cmd('source ~/.config/nvim/local.lua')
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
