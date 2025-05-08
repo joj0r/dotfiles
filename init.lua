@@ -1,6 +1,36 @@
 -- Get file for local adjustments
 vim.cmd('source ~/.vimrc_local')
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- Disable tmux navigator when zooming the Vim pane
+vim.g.tmux_navigator_disable_when_zoomed = 1
+
+-- Set numbers
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+-- Set tabwidth to 2 and spaces instead of numbers
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
+-- From thePrimeagen
+vim.opt.smartindent = true
+vim.opt.swapfile = false
+vim.opt.backup = true
+vim.opt.backupdir = os.getenv("HOME") .. "/.vim/backup"
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+
+vim.opt.scrolloff = 8
+
+-- Set leader to spacebar
+vim.g.mapleader = " "
+
+-- Search sould not be case sensitive
+vim.o.ignorecase = true
 
 -- lazy.nvim
 
@@ -92,32 +122,8 @@ require('lazy').setup({
   { 'tpope/vim-fugitive' },
 })
 
--- Disable tmux navigator when zooming the Vim pane
-vim.g.tmux_navigator_disable_when_zoomed = 1
 
--- Set numbers
-vim.opt.number = true
-vim.opt.relativenumber = true
 
--- Set tabwidth to 2 and spaces instead of numbers
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-
--- From thePrimeagen
-vim.opt.smartindent = true
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
-
-vim.opt.scrolloff = 8
-
--- Set leader to spacebar
-vim.g.mapleader = " "
-
--- Search sould not be case sensitive
-vim.o.ignorecase = true
 
 -- Vim-ledger
 -- Fussy account and details first on search
