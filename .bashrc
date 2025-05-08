@@ -131,6 +131,8 @@ alias tt='taskwarrior-tui'
 alias cdo='cd "/mnt/c/Users/nojojo/OneDrive - Sweco AB"'
 alias cdw='cd /mnt/c/Users/nojojo'
 
+alias spy='gulp clean && gulp build && gulp bundle --ship && gulp package-solution --ship'
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
