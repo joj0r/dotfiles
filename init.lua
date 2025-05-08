@@ -68,6 +68,7 @@ require('lazy').setup({
   { 'tools-life/taskwiki' },
   { 'blindFS/vim-taskwarrior' },
   -- Visual and interaction
+  { "nvim-tree/nvim-web-devicons",      opts = {} },
   { 'folke/tokyonight.nvim' },
   { 'Yggdroot/indentLine' },
   {
@@ -100,7 +101,18 @@ require('lazy').setup({
   --     {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
   --   },
   -- },
-  { 'preservim/nerdtree' },
+  -- { 'preservim/nerdtree' },
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
+  },
   { 'AndrewRadev/splitjoin.vim' },
   { 'tpope/vim-surround' },
 
@@ -148,10 +160,10 @@ vim.g.splitjoin_join_mapping = ''
 vim.keymap.set('n', '<leader>j', '<cmd>:SplitjoinJoin<CR>')
 vim.keymap.set('n', '<leader>s', '<cmd>:SplitjoinSplit<CR>')
 
---- Nerdtree remaping
-vim.keymap.set('n', '<leader>n', '<cmd>:NERDTreeFocus<CR>')
+--- NvimTree remaping
+vim.keymap.set('n', '<leader>n', '<cmd>:NvimTreeFocus<CR>')
 vim.keymap.set('n', '<C-n>', '<cmd>:NERDTree<CR>')
-vim.keymap.set('n', '<C-t>', '<cmd>:NERDTreeToggle<CR>')
+vim.keymap.set('n', '<C-t>', '<cmd>:NvimTreeToggle<CR>')
 vim.keymap.set('n', '<C-f>', '<cmd>:NERDTreeFind<CR>')
 
 -- Telescope remapping
