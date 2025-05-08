@@ -133,7 +133,7 @@ PS1='[\u@\h \W]\$ '
 # Ledger felles.ledger
 alias lfbal='ledger -f felles.ledger bal assets liabilities'
 alias lfbud='ledger -f felles.ledger budget -p "this month" exp'
-alias lfbudm='ledger -f felles.ledger budget -p "this month" exp and not \(\
+alias lfbudm='ledger -f felles.ledger budget --effective -p "this month" exp and not \(\
     Expenses:Bolig:Vedlikehold\
     Expenses:Bolig:Møbler\
     Expenses:Bolig:Hage\
@@ -180,7 +180,7 @@ alias lrbudy='ledger -f regnskap.ledger budget -p "this year" exp and not \(\
     Income:Barnetrygd\
     \)'
 
-alias lrbudm='ledger -f regnskap.ledger budget -p "this month" exp and not \(\
+alias lrbudm='ledger -f regnskap.ledger budget --effective -p "this month" exp and not \(\
     Expenses:Datautstyr\
     Expenses:Ferie\
     Expenses:Gaver\
