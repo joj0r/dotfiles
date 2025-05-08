@@ -109,34 +109,40 @@ urgency.due.coefficient            = 15.0 # overdue or near due date
 urgency.user.tag.next.coefficient  = 0.0 # +next tag
 urgency.user.tag.@work.coefficient = 10.0 # +@work tag
 urgency.user.tag.@home.coefficient = 10.0 # +@home tag
-urgency.project.coefficient        = 5.0 # assigned to any project
+urgency.project.coefficient        = 0.0 # assigned to any project
 urgency.tags.coefficient           = 0.0 # has tags
-urgency.user.project.Klimagass.coefficient	= 5.0
+urgency.user.project.Klimagass.coefficient	= 0.0
 urgency.inherit                    = on # dependent tasks inherit urgency from parent
+
+# Periodic syncinc when taskwarrior-tui is running
+uda.taskwarrior-tui.background_process=task sync
+uda.taskwarrior-tui.background_process_period=60
 
 # Contexts
 
 ## Work
-context.work.read=-home -@home -buylist -@ledger
-context.work.write=+work
+context.today.read=status:pending -buylist -in (+TODAY or +OVERDUE or scheduled.before:today)
+context.week.read=status:pending -buylist -in (+WEEK or +OVERDUE or schedule.before:week)
+# context.work.read=-home -@home -buylist -@ledger
+# context.work.write=+work
 ### @Work
-context.@work.read=(-home -@home -buylist -@ledger) or +@work
+# context.@work.read=(-home -@home -buylist -@ledger) or +@work
 
 ## Privat
 ### Når jeg er hjemme
-context.@home.read=project.not:Mikrohus -@maxbo -@bil -@solo (+@home or +home)
-context.@home.write=+home
+# context.@home.read=project.not:Mikrohus -@maxbo -@bil -@solo (+@home or +home)
+# context.@home.write=+home
 ### Når jeg er hjemme alene
-context.@solo.read=+@solo
-context.@solo.write=+home
+# context.@solo.read=+@solo
+# context.@solo.write=+home
 ### Alle personlige ting
-context.home.read=+home
-context.home.write=+home
+# context.home.read=+home
+# context.home.write=+home
 ### Når jeg vil jobbe med pc
-context.@pc.read=+@pc or pro:Server or pro:Arch
+# context.@pc.read=+@pc or pro:Server or pro:Arch
 ### Ting som skal på mobil-liste
-context.@mob.read=+@mob
+# context.@mob.read=+@mob
 
 ## All tasks that can be done anywhere
-context.reise.read=-@home -work -@maxbo
+# context.reise.read=-@home -work -@maxbo
 
