@@ -158,10 +158,39 @@ require('lazy').setup({
     end,
     ft = { "markdown" },
   },
+  -- terminal inside nvim
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    lazy = true,
+    opts = {
+      open_mapping = [[<c-\>]],
+      close_on_exit = true,
+      shade_terminals = false,
+      --[[ things you want to change go here]]
+    },
+    cmd = { "ToggleTerm" },
+    keys = {
+      { "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", desc = "Open LazyGit terminal", mode = { "n" } },
+    }
+  }
 })
 
 
+-- Cutsom terminal for lazygit
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit  = Terminal:new({
+  cmd = "lazygit",
+  direction = "float",
+  float_opts = {
+    border = "curved",
+  },
+  hidden = true,
+})
 
+function _lazygit_toggle()
+  lazygit:toggle()
+end
 
 -- Vim-ledger
 -- Fussy account and details first on search
