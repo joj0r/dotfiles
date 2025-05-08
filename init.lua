@@ -132,6 +132,32 @@ require('lazy').setup({
   },
   -- Git
   { 'tpope/vim-fugitive' },
+  -- Markdown preview installed for PlantUML
+  {
+    'https://github.com/Groveer/plantuml.nvim',
+    version = '*',
+    config = function()
+      require('plantuml').setup({
+        renderer = {
+          type = 'text',
+          options = {
+            split_cmd = 'vsplit', -- Allowed values: 'split', 'vsplit'.
+          }
+        },
+        render_on_write = true, -- Set to false to disable auto-rendering.
+      })
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+      vim.g.mkdp_echo_preview_url = 1
+    end,
+    ft = { "markdown" },
+  },
 })
 
 
