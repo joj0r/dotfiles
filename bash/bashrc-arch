@@ -133,7 +133,7 @@ PS1='[\u@\h \W]\$ '
 # Ledger felles.ledger
 alias lfbal='ledger -f felles.ledger bal assets liabilities'
 alias lfbud='ledger -f felles.ledger budget -p "this month" exp'
-alias lfbudm='ledger -f felles.ledger budget -p "this month" exp and not \(\
+alias lfbudm='ledger -f felles.ledger budget --effective -p "this month" exp and not \(\
     Expenses:Bolig:Vedlikehold\
     Expenses:Bolig:Møbler\
     Expenses:Bolig:Hage\
@@ -160,7 +160,7 @@ alias lfbudy='ledger -f felles.ledger budget -p "this year" exp and not \(\
 # Ledger regnskap.ledger
 alias lrbal='ledger -f regnskap.ledger bal \(assets liabilities klatrekort\) and not \(Pensjon or PetraAsk\) -V'
 alias wrbal='watch ledger -f regnskap.ledger bal \(assets liabilities klatrekort\) and not \(Pensjon or PetraAsk\) -V'
-alias lrbud='ledger -f regnskap.ledger budget -p "this month" exp'
+alias lrbud='ledger -f regnskap.ledger budget -p "this month" ^Ass ^Exp ^Inc ^Lia'
 alias lrbudy='ledger -f regnskap.ledger budget -p "this year" exp and not \(\
     Expenses:Underholdning\
     Expenses:Bolig\
@@ -180,7 +180,7 @@ alias lrbudy='ledger -f regnskap.ledger budget -p "this year" exp and not \(\
     Income:Barnetrygd\
     \)'
 
-alias lrbudm='ledger -f regnskap.ledger budget -p "this month" exp and not \(\
+alias lrbudm='ledger -f regnskap.ledger budget --effective -p "this month" exp and not \(\
     Expenses:Datautstyr\
     Expenses:Ferie\
     Expenses:Gaver\
@@ -224,3 +224,5 @@ alias ut='TERM=xterm-256color ssh phablet@192.168.0.39'
 
 # nvim
 alias vim='nvim'
+
+eval "$(starship init bash)"

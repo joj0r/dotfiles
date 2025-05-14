@@ -2,11 +2,15 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export LEDGER_FILE='~/.task/timer/timer.ldg'
 #export TASKRC='~/.task/.taskrc'
 export PATH=~/.local/bin:$PATH
 export TERM=xterm-256color
+export GPG_TTY=$(tty)
+
+# To fix warning in npm
+# export NODE_OPTIONS='--disable-warning=ExperimentalWarning'
 
 # If not running interactively, don't do anything
 case $- in
@@ -14,6 +18,8 @@ case $- in
       *) return;;
 esac
 
+# Set up Node Version Manager
+source /usr/share/nvm/init-nvm.sh
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -108,8 +114,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.task/.bash_aliases ]; then
-    . ~/.task/.bash_aliases
+if [ -f ~/dotfiles/.bash_aliases ]; then
+    . ~/dotfiles/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -124,14 +130,19 @@ if ! shopt -oq posix; then
 fi
 
 # Personal aliases
-alias vt='vim ~/.task/timer/2023.ldg'
+alias vt='vim ~/timer/2024.ldg'
 alias tt='taskwarrior-tui'
+alias vim='nvim'
 
 # Windows
 alias cdo='cd "/mnt/c/Users/nojojo/OneDrive - Sweco AB"'
 alias cdw='cd /mnt/c/Users/nojojo'
 
+alias spy='gulp clean && gulp build && gulp bundle --ship && gulp package-solution --ship'
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ -e ~/bin ]] && export PATH=$PATH:~/bin
+
+eval "$(starship init bash)"

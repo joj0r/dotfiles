@@ -1,5 +1,36 @@
 -- Get file for local adjustments
-vim.cmd('source ~/dotfiles/local_arch.lua')
+vim.cmd('source ~/.config/nvim/local.lua')
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- Disable tmux navigator when zooming the Vim pane
+vim.g.tmux_navigator_disable_when_zoomed = 1
+
+-- Set numbers
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+-- Set tabwidth to 2 and spaces instead of numbers
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
+-- From thePrimeagen
+vim.opt.smartindent = true
+vim.opt.swapfile = false
+vim.opt.backup = true
+vim.opt.backupdir = os.getenv("HOME") .. "/.vim/backup"
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+
+vim.opt.scrolloff = 8
+
+-- Set leader to spacebar
+vim.g.mapleader = " "
+
+-- Search sould not be case sensitive
+vim.o.ignorecase = true
 
 -- lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -36,6 +67,7 @@ require('lazy').setup({
   { 'tools-life/taskwiki' },
   { 'blindFS/vim-taskwarrior' },
   -- Visual and interaction
+  { "nvim-tree/nvim-web-devicons",      opts = {} },
   { 'folke/tokyonight.nvim' },
   { 'Yggdroot/indentLine' },
   { 'morhetz/gruvbox' },
@@ -53,7 +85,31 @@ require('lazy').setup({
       {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
     },
   },
-  { 'preservim/nerdtree' },
+  -- {
+  --   'MunsMan/kitty-navigator.nvim',
+  --   build = {
+  --     "cp navigate_kitty.py ~/.config/kitty",
+  --     "cp pass_keys.py ~/.config/kitty",
+  --   },
+  --   keys = {
+  --     {"<C-h>", function()require("kitty-navigator").navigateLeft()end, desc = "Move left a Split", mode = {"n"}},
+  --     {"<C-j>", function()require("kitty-navigator").navigateDown()end, desc = "Move down a Split", mode = {"n"}},
+  --     {"<C-k>", function()require("kitty-navigator").navigateUp()end, desc = "Move up a Split", mode = {"n"}},
+  --     {"<C-l>", function()require("kitty-navigator").navigateRight()end, desc = "Move right a Split", mode = {"n"}},
+  --   },
+  -- },
+  -- { 'preservim/nerdtree' },
+  {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
+  },
   { 'AndrewRadev/splitjoin.vim' },
   { 'tpope/vim-surround' },
 
@@ -72,34 +128,66 @@ require('lazy').setup({
   },
   -- Git
   { 'tpope/vim-fugitive' },
+  -- Markdown preview installed for PlantUML
+  {
+    'https://github.com/Groveer/plantuml.nvim',
+    version = '*',
+    config = function()
+      require('plantuml').setup({
+        renderer = {
+          type = 'text',
+          options = {
+            split_cmd = 'vsplit', -- Allowed values: 'split', 'vsplit'.
+          }
+        },
+        render_on_write = true, -- Set to false to disable auto-rendering.
+      })
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+      vim.g.mkdp_echo_preview_url = 1
+    end,
+    ft = { "markdown" },
+  },
+  -- terminal inside nvim
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    lazy = true,
+    opts = {
+      open_mapping = [[<c-\>]],
+      close_on_exit = true,
+      shade_terminals = false,
+      --[[ things you want to change go here]]
+    },
+    cmd = { "ToggleTerm" },
+    keys = {
+      { "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", desc = "Open LazyGit terminal", mode = { "n" } },
+      { "<leader>ø", "<cmd>:ToggleTerm<CR>", desc = "Open bottom terminal", mode = { "n" } },
+    }
+  }
 })
 
--- Disable tmux navigator when zooming the Vim pane
-vim.g.tmux_navigator_disable_when_zoomed = 1
 
--- Set numbers
-vim.opt.number = true
-vim.opt.relativenumber = true
+-- Cutsom terminal for lazygit
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit  = Terminal:new({
+  cmd = "lazygit",
+  direction = "float",
+  float_opts = {
+    border = "curved",
+  },
+  hidden = true,
+})
 
--- Set tabwidth to 2 and spaces instead of numbers
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-
--- From thePrimeagen
-vim.opt.smartindent = true
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
-
-vim.opt.scrolloff = 8
-
--- Set leader to spacebar
-vim.g.mapleader = " "
-
--- Search sould not be case sensitive
-vim.o.ignorecase = true
+function _lazygit_toggle()
+  lazygit:toggle()
+end
 
 -- Vim-ledger
 -- Fussy account and details first on search
@@ -124,10 +212,10 @@ vim.g.splitjoin_join_mapping = ''
 vim.keymap.set('n', '<leader>j', '<cmd>:SplitjoinJoin<CR>')
 vim.keymap.set('n', '<leader>s', '<cmd>:SplitjoinSplit<CR>')
 
---- Nerdtree remaping
-vim.keymap.set('n', '<leader>n', '<cmd>:NERDTreeFocus<CR>')
+--- NvimTree remaping
+vim.keymap.set('n', '<leader>n', '<cmd>:NvimTreeFocus<CR>')
 vim.keymap.set('n', '<C-n>', '<cmd>:NERDTree<CR>')
-vim.keymap.set('n', '<C-t>', '<cmd>:NERDTreeToggle<CR>')
+vim.keymap.set('n', '<C-t>', '<cmd>:NvimTreeToggle<CR>')
 vim.keymap.set('n', '<C-f>', '<cmd>:NERDTreeFind<CR>')
 
 -- Telescope remapping
