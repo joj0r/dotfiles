@@ -210,14 +210,14 @@ alias bw='bluetoothctl connect F8:4E:17:45:41:43'
 alias bt='bluetoothctl connect 00:02:5B:00:B0:CC'
 
 # Enable bash completion for Clickable
-if [ $(command -v register-python-argcomplete) ]; then
-  eval "$(register-python-argcomplete clickable)"
-elif [ $(command -v register-python-argcomplete3) ]; then
-  eval "$(register-python-argcomplete3 clickable)"
-else
-  echo "Cannot enable Clickable autocompletion, because argcomplete is not installed"
-fi
-export PATH="$PATH:$HOME/.local/bin"
+# if [ $(command -v register-python-argcomplete) ]; then
+#   eval "$(register-python-argcomplete clickable)"
+# elif [ $(command -v register-python-argcomplete3) ]; then
+#   eval "$(register-python-argcomplete3 clickable)"
+# else
+#   echo "Cannot enable Clickable autocompletion, because argcomplete is not installed"
+# fi
+# export PATH="$PATH:$HOME/.local/bin"
 
 # Ubuntu touch
 alias ut='TERM=xterm-256color ssh phablet@192.168.0.39'
