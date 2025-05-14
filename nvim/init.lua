@@ -172,6 +172,7 @@ require('lazy').setup({
     cmd = { "ToggleTerm" },
     keys = {
       { "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", desc = "Open LazyGit terminal", mode = { "n" } },
+      { "<leader>ø", "<cmd>:ToggleTerm<CR>", desc = "Open bottom terminal", mode = { "n" } },
     }
   }
 })
