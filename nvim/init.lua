@@ -160,7 +160,6 @@ require('lazy').setup({
     version = "*",
     lazy = true,
     opts = {
-      open_mapping = [[<c-\>]],
       close_on_exit = true,
       shade_terminals = false,
       --[[ things you want to change go here]]
@@ -168,7 +167,13 @@ require('lazy').setup({
     cmd = { "ToggleTerm" },
     keys = {
       { "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", desc = "Open LazyGit terminal", mode = { "n" } },
-      { "<leader>ø", "<cmd>:ToggleTerm<CR>", desc = "Open bottom terminal", mode = { "n" } },
+      { "<leader>ø", "<cmd>:ToggleTerm<CR>", desc = "Open bottom terminal", mode = { "n", "t" } },
+      { "<leader><esc>", "<C-\\><C-n>", desc = "Exit insert mode in terminal", mode = { "t" } },
+
+      { "<C-h>", "<cmd>:wincmd h<CR>", desc = "Move to window on the left", mode = { "t" } },
+      { "<C-j>", "<cmd>:wincmd j<CR>", desc = "Move to window below", mode = { "t" } },
+      { "<C-k>", "<cmd>:wincmd k<CR>", desc = "Move to window above", mode = { "t" } },
+      { "<C-l>", "<cmd>:wincmd l<CR>", desc = "Move to window on the right", mode = { "t" } },
     }
   }
 })
@@ -180,6 +185,8 @@ local lazygit  = Terminal:new({
   cmd = "lazygit",
   direction = "float",
   float_opts = {
+    width = vim.o.columns - 10,
+    height = vim.o.lines - 5,
     border = "curved",
   },
   hidden = true,
